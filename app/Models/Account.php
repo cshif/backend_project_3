@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Account extends Model
 {
+    protected $fillable = [
+        'balance',
+    ];
+
     use HasFactory;
 
     public function userIds(): HasMany
