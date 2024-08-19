@@ -20,4 +20,9 @@ Route::get('/accounts/{accountId}/users', [AccountController::class, 'getUsersBy
 Route::patch('/accounts/{id}', [AccountController::class, 'update']);
 Route::delete('/accounts/{id}', [AccountController::class, 'destroy']);
 
+Route::post('/transactions', [TransactionController::class, 'store']);
+Route::get('/transactions', [TransactionController::class, 'index']);
+Route::get('/transactions/{id}', [TransactionController::class, 'show']);
 Route::get('/transactions/{transactionId}/user', [TransactionController::class, 'getUserByTransactionId']);
+Route::patch('/transactions/{id}', [TransactionController::class, 'update']);
+Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
