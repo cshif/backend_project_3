@@ -21,13 +21,13 @@ class AccountController extends Controller
 
     public function show(int $id)
     {
-        $accounts = Account::with('users')->find($id);
+        $account = Account::with('users')->find($id);
 
-        if (! $accounts) {
+        if (! $account) {
             return response()->json(['error' => 'No account found.'], 404);
         }
 
-        return response()->json($accounts, 200);
+        return response()->json($account, 200);
     }
 
     public function getUsersByAccountId(int $accountId)
