@@ -41,6 +41,17 @@ class UserController extends Controller
         return response()->json($account, 200);
     }
 
+    public function getTransactionsByUserId(int $userId)
+    {
+        $transactions = User::find($userId)->transactions ?? null;
+
+        if (! $transactions) {
+            return response()->json(['error' => 'No user found.'], 404);
+        }
+
+        return response()->json($transactions, 200);
+    }
+
     public function store(Request $request)
     {
         $user = User::create($request->input());
