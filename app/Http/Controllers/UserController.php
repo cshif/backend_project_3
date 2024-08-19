@@ -30,6 +30,17 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
+    public function getAccountByUserId(int $userId)
+    {
+        $account = User::find($userId)->account ?? null;
+
+        if (! $account) {
+            return response()->json(['error' => 'No user found.'], 404);
+        }
+
+        return response()->json($account, 200);
+    }
+
     public function store(Request $request)
     {
         $user = User::create($request->input());
