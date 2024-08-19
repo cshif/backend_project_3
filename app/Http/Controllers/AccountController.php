@@ -30,6 +30,17 @@ class AccountController extends Controller
         return response()->json($accounts, 200);
     }
 
+    public function getUsersByAccount(int $accountId)
+    {
+        $accounts = Account::find($accountId)->users ?? null;
+
+        if (! $accounts) {
+            return response()->json(['error' => 'No account found.'], 404);
+        }
+
+        return response()->json($accounts, 200);
+    }
+
     public function store(Request $request)
     {
         $account = Account::create();

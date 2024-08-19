@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Account extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'balance',
     ];
 
-    use HasFactory;
-
-    public function userIds(): HasMany
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
