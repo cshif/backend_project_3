@@ -14,6 +14,6 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::post('/accounts', [AccountController::class, 'store']);
 Route::get('/accounts', [AccountController::class, 'index']);
 Route::get('/accounts/{id}', [AccountController::class, 'show']);
-Route::get('/accounts/{accountId}/users', [AccountController::class, 'getUsersByAccount']);
+Route::get('/accounts/{accountId}/users', [AccountController::class, 'getUsersByAccountId']);
 Route::patch('/accounts/{id}', [AccountController::class, 'update']);
 Route::delete('/accounts/{id}', [AccountController::class, 'destroy']);

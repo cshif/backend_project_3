@@ -30,7 +30,7 @@ class AccountController extends Controller
         return response()->json($accounts, 200);
     }
 
-    public function getUsersByAccount(int $accountId)
+    public function getUsersByAccountId(int $accountId)
     {
         $users = Account::find($accountId)->users ?? null;
 
