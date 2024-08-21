@@ -3,80 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::all();
-        $transactionsCount = $transactions->count();
-
-        if ($transactionsCount <= 0) {
-            return response()->json(['error' => 'error'], 400);
-        }
-
-        return response()->json($transactions, 200);
+        return Transaction::paginate(10);
     }
 
-    public function show(int $id)
+    public function store()
     {
-        // todo join
-        $transaction = Transaction::find($id);
+        $validated = request()->validate([
+            'user_id' => 'required',
+            'type' => 'required',
+            'currency_type' => 'required',
+            'note' => 'sometimes',
+            'balance_before_transaction' => 'required',
+            'balance_after_transaction' => 'required',
+            'status' => 'required',
+            'source_account_id' => 'required',
+            'destination_account_id' => 'required',
+        ]);
 
-        if (! $transaction) {
-            return response()->json(['error' => 'No transaction found.'], 404);
-        }
-
-        return response()->json($transaction, 200);
+        return Transaction::create($validated);
     }
 
-    public function getUserByTransactionId(int $transactionId)
+    public function show(Transaction $transaction)
     {
-        $user = Transaction::find($transactionId)->user ?? null;
-
-        if (! $user) {
-            return response()->json(['error' => 'No transaction found.'], 404);
-        }
-
-        return response()->json($user, 200);
+        return $transaction->load(['user']);
     }
 
-    public function store(Request $request)
+    public function update(Transaction $transaction)
     {
-        $transaction = Transaction::create(request()->all());
+        $validated = request()->validate([
+            'user_id' => 'sometimes',
+            'type' => 'sometimes',
+            'currency_type' => 'sometimes',
+            'note' => 'sometimes',
+            'balance_before_transaction' => 'sometimes',
+            'balance_after_transaction' => 'sometimes',
+            'status' => 'sometimes',
+            'source_account_id' => 'sometimes',
+            'destination_account_id' => 'sometimes',
+        ]);
 
-        if (! $transaction) {
-            return response()->json(['error' => 'error'], 400);
-        }
-
-        return response()->json($transaction, 201);
+        return $transaction->update($validated);
     }
 
-    public function update(Request $request, int $id)
+    public function destroy(Transaction $transaction)
     {
-        $transaction = Transaction::find($id);
-
-        if (! $transaction) {
-            return response()->json(['error' => 'No transaction found.'], 404);
-        }
-
-        $transaction->fill($request->all());
-        $transaction->save();
-
-        return response()->json($transaction, 200);
-    }
-
-    public function destroy(Request $request, int $id)
-    {
-        $transaction = Transaction::find($id);
-
-        if (! $transaction) {
-            return response()->json(['error' => 'No transaction found.'], 404);
-        }
-
-        $transaction->delete();
-
-        return response()->json(['status' => 'Transaction delete successfully.'], 200);
+        return $transaction->delete();
     }
 }

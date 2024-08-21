@@ -3,79 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
     public function index()
     {
-        $accounts = Account::all();
-        $accountsCount = $accounts->count();
-
-        if ($accountsCount <= 0) {
-            return response()->json(['error' => 'error'], 400);
-        }
-
-        return response()->json($accounts, 200);
-    }
-
-    public function show(int $id)
-    {
-        $account = Account::with('users')->find($id);
-
-        if (! $account) {
-            return response()->json(['error' => 'No account found.'], 404);
-        }
-
-        return response()->json($account, 200);
-    }
-
-    public function getUsersByAccountId(int $accountId)
-    {
-        $users = Account::find($accountId)->users ?? null;
-
-        if (! $users) {
-            return response()->json(['error' => 'No account found.'], 404);
-        }
-
-        return response()->json($users, 200);
+        return Account::paginate(10);
     }
 
     public function store()
     {
-        $account = Account::create();
+        $validated = request()->validate([
+            'balance' => 'required',
+        ]);
 
-        if (! $account) {
-            return response()->json(['error' => 'error'], 400);
-        }
-
-        return response()->json($account, 201);
+        return Account::create($validated);
     }
 
-    public function update(Request $request, int $id)
+    public function show(Account $account)
     {
-        $account = Account::find($id);
-
-        if (! $account) {
-            return response()->json(['error' => 'No account found.'], 404);
-        }
-
-        $account->fill($request->all());
-        $account->save();
-
-        return response()->json($account, 200);
+        return $account->load(['users']);
     }
 
-    public function destroy(int $id)
+    public function update(Account $account)
     {
-        $account = Account::find($id);
+        $validated = request()->validate([
+            'balance' => 'sometimes',
+        ]);
 
-        if (! $account) {
-            return response()->json(['error' => 'No account found.'], 404);
-        }
+        return $account->update($validated);
+    }
 
-        $account->delete();
-
-        return response()->json(['status' => 'Account delete successfully.'], 200);
+    public function destroy(Account $account)
+    {
+        return $account->delete();
     }
 }
