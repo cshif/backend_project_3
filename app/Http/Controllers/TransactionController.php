@@ -21,8 +21,8 @@ class TransactionController extends Controller
             'balance_before_transaction' => 'required',
             'balance_after_transaction' => 'required',
             'status' => 'required',
-            'source_account_id' => 'required',
-            'destination_account_id' => 'required',
+            'source_account_id' => 'sometimes',
+            'destination_account_id' => 'sometimes',
         ]);
 
         return Transaction::create($validated);
