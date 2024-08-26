@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\ActivateController;
+use App\Http\Controllers\ActivateAccountController;
 use App\Http\Controllers\BalanceController;
-use App\Http\Controllers\DeactivateController;
+use App\Http\Controllers\DeactivateAccountController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('/users', UserController::class);
 Route::apiResource('/accounts', AccountController::class);
-Route::get('/accounts/{account}/activate', [ActivateController::class, 'store']);
-Route::get('/accounts/{account}/deactivate', [DeactivateController::class, 'store']);
-Route::get('/accounts/{account}/balance', [BalanceController::class, 'store']);
+Route::patch('/accounts/{account}/activate', [ActivateAccountController::class, 'update']);
+Route::delete('/accounts/{account}/deactivate', [DeactivateAccountController::class, 'destroy']);
+Route::get('/accounts/{account}/balance', [BalanceController::class, 'show']);
 Route::get('/accounts/{account}/deposit', [DepositController::class, 'store']);
 Route::get('/accounts/{account}/withdraw', [WithdrawController::class, 'store']);
 Route::get('/accounts/{account}/transfer', [TransferController::class, 'store']);
