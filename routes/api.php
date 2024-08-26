@@ -16,7 +16,7 @@ Route::apiResource('/accounts', AccountController::class);
 Route::patch('/accounts/{account}/activate', [ActivateAccountController::class, 'update']);
 Route::delete('/accounts/{account}/deactivate', [DeactivateAccountController::class, 'destroy']);
 Route::get('/accounts/{account}/balance', [BalanceController::class, 'show']);
-Route::get('/accounts/{account}/deposit', [DepositController::class, 'store']);
+Route::post('/accounts/{account}/deposit', [DepositController::class, 'store']);
 Route::get('/accounts/{account}/withdraw', [WithdrawController::class, 'store']);
 Route::get('/accounts/{account}/transfer', [TransferController::class, 'store']);
 
